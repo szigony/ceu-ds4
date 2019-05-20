@@ -51,10 +51,11 @@ tidy_shows %>%
   count(show, word, sort = TRUE) %>% 
   group_by(show) %>% 
   top_n(10) %>% 
+  arrange(show, -n) %>% 
   ungroup() %>% 
   ggplot(aes(reorder(word, n), n, fill = show)) +
     geom_col(show.legend = FALSE) +
-    facet_wrap(~show, scales = "free_y") +
+    facet_wrap(~show, scales = "free") +
     labs(x = NULL, y = NULL) +
     coord_flip()
 
@@ -116,6 +117,7 @@ show_words <- left_join(show_words, total_words)
 # Term Distribution
 ggplot(show_words, aes(n / total, fill = show)) +
   geom_histogram(show.legend = FALSE) +
+  labs(x = NULL, y = NULL) +
   xlim(NA, 0.003) +
   facet_wrap(~show, ncol = 2, scales = "free_y")
 
