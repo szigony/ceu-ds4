@@ -1,5 +1,5 @@
 # Text and sentiment analysis of Hungarian scripts
-Term Project for *Data Science 4: Unstructured Text Analysis* at CEU, Budapest. It leverages the outputs of the [dubbR package](https://github.com/szigony/dubbR) that I created for this specific use-case.
+Term Project for *Data Science 4: Unstructured Text Analysis* at CEU, Budapest. The project leverages the outputs of the [dubbR package](https://github.com/szigony/dubbR) that I created for this specific use-case.
 
 #### Table of contents
 
@@ -22,13 +22,13 @@ The goal of this analysis is to see how well the topics of certain scripts writt
 
 Between August 2014 and February 2016 I worked for Mafilm Audio as an audiovisual translator, writing Hungarian dubs for TV shows that aired on Discovery Channel or one of its sister channels (TLC, Animal Planet etc.). Little did I know back then, but the seemingly strict formal requirements came in handy when looking for a project for a course at CEU.
 
-I had written exactly 100 scripts, all with the same format - timestamp, character and text within several tables per script. For this excercise, I ended up using 52 scripts from 7 TV shows with different topics:
+During my translator days, I had written exactly 100 scripts, all with the same format - timestamp, character and text within several tables per script. For this excercise, I ended up using 52 scripts from 7 TV shows with different topics:
 
 - **Backroad Bounty:** Two guys looking for treasure in other people's junk, bidding on various items.
-- **Ed Stafford Into the Unknown:** Ed Stafford wandering around the globe, looking for mysterious places and adventures.
-- **Fifth Gear:** Your tipical motor magazine with car tests.
+- **Ed Stafford Into the Unknown:** Ed Stafford wandering around the globe, searching for mysterious places and adventures.
+- **Fifth Gear:** Your typical motor magazine with car tests.
 - **Finding Bigfoot:** A team in search of the mysterious creature called Bigfoot.
-- **Fire in the Hole:** An explosives expert... blowing stuff up.
+- **Fire in the Hole:** An explosives expert and his team... blowing stuff up.
 - **Incredible Engineering Blunders Fixed:** Looking for engineering "miracles" in the worst possible sense of the word.
 - **Misfit Garage:** Pimp My Ride style garage with lots of rivalry.
 
@@ -47,11 +47,11 @@ The package loads all the scripts in their original format with the help of the 
 
 ## Term frequency analysis
 
-> **The full code can be found in the [text-analysis.R](text-analysis.R) file.**
+> The full code can be found in the **[text-analysis.R](text-analysis.R)** file.
 
 - I used the following packages to perform the analysis: `tidytext`, `dplyr`, `stringr`, `ggplot2`, `tidyr` and `scales`, as well as my own `dubbR` package.
   
-- In addition to the Hungarian stopwords from the `tidytext` package, I included my custom list with possessives, suffixes and words such as "ha" (*if*), "is" (*too*), "szóval" (*so*), etc.
+- In addition to the Hungarian stopwords from the `tidytext` package, I included my custom list with possessives, suffixes and words such as "if" (*ha*), "too" (*is*), "so" (*szóval*), etc.
 
   ```r
   hu_stopwords <- bind_rows(
@@ -72,13 +72,13 @@ I started with a simple term frequency for each of the shows to see if it approx
 
 ![alt text](assets/term-frequency-per-show.png "Term Frequency per Show")
 
-- Backroad Bounty has words such as "dollárt" (*dollar*), "régi" (*old*) and "találtam" (*I found*), which suggests that it has something to do with antics.
-- In case of Into the Unknown, other than Amazonas, nothing suggests what the show's about.
-- Fifth Gear has "autó"/"autót" (*car*), and the same goes for Misfit Garage, so we can have some basic idea that it's something about cars.
+- **Backroad Bounty** has words such as "dollar" (*dollárt*), "old" (*régi*) and "found" (*találtam*), which suggests that it has something to do with antics.
+- In case of **Into the Unknown**, other than Amazonas, nothing suggests what the show's about.
+- **Fifth Gear** has "car" (*autó, autót*), and the same goes for Misfit Garage, so we can have some basic idea that both must be about cars.
 - The other three shows hit really close to home:
-  - For Finding Bigfoot, three versions of "nagyláb" (*Bigfoot*) appear among the most frequent terms, as well as terms refering to the show's supernatural (and highly fictive) nature: "láttam" (*I saw*), "hallottam" (*I heard*) and "valamit" (*something*).
-  - Fire in the Hole is all about explosions, and we have the word for explosion and explosives among the top terms.
-  - Last but not least, Incredible Engineering Blunders Fixed seems to be related to "mérnöki" (*of engineers*), "mérnökök" (*engineers*) and "épület" (*building*).
+  - For **Finding Bigfoot**, three versions of "Bigfoot" (*nagyláb, nagylábat, nagylábak*) appear among the most frequent terms, as well as terms refering to the show's supernatural (and highly fictive) nature: "saw" (*láttam*), "heard" (*hallottam*) and "something" (*valamit*).
+  - **Fire in the Hole** is all about explosions, and we have the word for explosion (*robbantás*) and explosives (*robbanószert, robbanószer*) among the top terms.
+  - Last but not least, **Incredible Engineering Blunders Fixed** (**IEBF** from here) seems to be related to "engineers" (*mérnök/mérnöki*) and "buildings" (*épület*).
   
 Okay, it seems like this could potentially help our lazy intern, but what happens when it comes to episodes of a certain show? Let's look at the first four episodes of Fifth Gear! :car:
 
@@ -86,17 +86,17 @@ Okay, it seems like this could potentially help our lazy intern, but what happen
 
 This seems to help to at least identify what cars appear in an episode.
 
-The first episode seems to have a Range Rover, an Audi and a BMW (all true). In the second episode, the hosts are testing a Megane, a Mazda, a Jaguar and a Toyota and the episode seems to be focused on hatchbacks ("hátsókerék"/"hátsókerekes"). In the third one, next to a McLaren and a Gold, there appears to be some kind of accident as well, judging by the words "ütközés" (collusion) and "sérülés" (injury). And in the fourth episode, we have the Aston Martin Vanquish which is most likely fast ("gyors") and the newest ("legújabb") and the best ("legjobb").
+The first episode seems to have a Range Rover, an Audi and a BMW (all true). In the second episode, the hosts are testing a Megane, a Mazda, a Jaguar and a Toyota and the episode seems to be focused on hatchbacks (*hátsókerék, hátsókerekes*). In the third one, next to a McLaren and a Golf, there appears to be some kind of accident as well, judging by the words "collusion" (*ütközés*) and "injury" (*sérülés*). And in the fourth episode, we have the Aston Martin Vanquish which is most likely fast (*gyors*), the newest (*legújabb*) and the best (*legjobb*).
 
 With just a few lines of code, we probably made the intern's life a lot easier. :smile:
 
 ### Relative term frequency
 
-Let's look at how similar my vocabulary was in case of Fifth Gear, Finding Bigfoot and Incredible Engineering Blunders Fixed.
+Let's look at how similar my vocabulary was in case of Fifth Gear, Finding Bigfoot and IEBD.
 
 ![alt text](assets/relative-term-frequency.png "Relative term frequency")
 
-Although I re-used the same words lots of times, there's a clear distinction when it comes to topics, as it can be seen on the chart above. In terms of Fifth Gear and IEBF, I used words such as "mérnöki" (*of engineers*), "legnagyobb" (*greatest*) and "elképesztő" (*amazing*) to describe engineering, while I obviously mostly used the word "autó" (*car*) for the show about cars. And hearsay seems to dominate for Finding Bigfoot with "biztosan" (*certainly*) and "láttam" (*I saw*).
+Although I re-used the same words lots of times, there's a clear distinction when it comes to topics, as it can be seen on the chart above. In terms of Fifth Gear and IEBF, I used words such as "engineers" (*mérnöki*), "greatest/biggest" (*legnagyobb*) and "amazing" (*elképesztő*) to describe engineering, while I obviously mostly used the word "car" (*autó*) for the show about cars. And hearsay seems to dominate for Finding Bigfoot with "certainly" (*biztosan*) and "saw" (*láttam*).
 
 ### Tf-idf
 
@@ -108,14 +108,14 @@ Let's look at term and document frequency for all shows.
 
 ![alt text](assets/tf-idf.png "Term and document frequency")
 
-Now this gives a lot better picture of what the shows are about than our initial analysis, and it could be a lot safer to rely on this when writing summaries.
+Now this gives a lot better picture of what the shows are about than our initial analysis, and it could be a lot safer to rely on when writing summaries.
 
-- **Backroad Bounty:** "bam" is the name of one of the characters (Bam Bam), but other than that we can see references to price ("dollárt", "dollárért"), that something is for sale ("eladó") and that the show is also about junk ("kacatok") and treasures ("kincs").
-- **Ed Stafford Into the Unknown:** The words speak for themselves - Amazonas, jungle ("dzsungel"), desert ("sivatag"), aboriginal ("bennszülött").
-- **Fifth Gear:** A lot of cars (Audi, BMW, Gold, Porsche, AMG, Renault) and the word "verseny" (*race*) let us have a pretty good understanding about the topic.
-- **Finding Bigfoot:** Five appearances of some form of the word Bigfoot ("nagyláb*").
-- **Fire in the Hole:** Four mentions of something explosion related ("robbantás", "robbanószert", "robbanószer", "dobbantunk") and some jargon.
-- **IEBF:** In addition to engineering related words we can also get some idea about where those blunders occurr: "torony" (*tower*) or "repülőtér" (*airport*) for example.
+- **Backroad Bounty:** "bam" is the name of one of the characters (Bam Bam), but other than that we can see references to price (*dollárt, dollárért*), that something is for sale (*eladó*) and that the show is also about junk (*kacatok*) and treasures (*kincs*).
+- **Ed Stafford Into the Unknown:** The words speak for themselves - Amazonas, jungle (*dzsungel*), desert (*sivatag*) or aboriginal (*bennszülött*).
+- **Fifth Gear:** A lot of cars (Audi, BMW, Gold, Porsche, AMG, Renault) and the word "race" (*verseny*) let us have a pretty good understanding about the topic.
+- **Finding Bigfoot:** Five appearances of some form of the word Bigfoot (*nagyláb, nagylábat, nagylábak, nagylábú, nagylábbal*).
+- **Fire in the Hole:** Four mentions of something explosion related (*robbantás, robbanószert, robbanószer, robbantunk*) and some jargon.
+- **IEBF:** In addition to engineering related words we can also get some idea about where those blunders occurr: "tower" (*torony*) or "airport" (*repülőtér*) for example.
 - **Misfit Garage:** There are some car types, but there also seems to be a lot of mentioning of Gas Monkey, the rivaling garage.
 
 ## Sentiment analysis
@@ -126,7 +126,7 @@ Let's look at the sentiment for all shows.
 
 ![alt text](assets/sentiments-in-all-shows.png "Sentiments in all shows")
 
-Fire in the Hole and IEBF appear to tend towards the negative, as one is all about dangerous explosions, and the other's about engineering solutions gone wrong, this is sort of what we would expect. Ed Stafford wanders into the unknown which isn't without its risk, but all other shows seem to be positive in general, although at this point we have absolutely no idea why, or even if this assumption is correct.
+Fire in the Hole and IEBF appear to tend towards the negative - as one is all about dangerous explosions, and the other's about engineering solutions gone wrong, this is sort of what we would expect. Ed Stafford wanders into the unknown which isn't without its risk, but all other shows seem to be positive in general, although at this point we have absolutely no idea why, or even if this assumption is correct.
 
 Let's look at an example. Can we see how the tests generally went throughout the season by the sentiments of Fifth Gear?
 
@@ -134,10 +134,10 @@ Let's look at an example. Can we see how the tests generally went throughout the
 
 This suggests an overall positive attitude all through the season, but unfortunately there are some shortcomings:
 
-- The word "fontos" (*important*) contributes the most to the positive sentiment, however throughout the text it's used more as neutral than positive.
-- "Fél" in itself is negative, but it can have two meanings: "half" or "to be afraid". Big difference.
-- While most of the words fall into the right bucket, almost all could possibly gain different meaning if we were to look at bigrams. Just one example: "tetszik" means that I like it, while "nem tetszik" would mean that I don't like it.
-- "Felfüggesztés" is negative in the sense that it means "suspension", however, since Fifth Gear is a car show, here we're talking about the spare part.
+- The word "important" (*fontos*) contributes the most to the positive sentiment, however throughout the text it's used more as neutral than positive.
+- "*Fél*" in itself is negative, but it can have two meanings: "half" or "to be afraid". Big difference.
+- While most of the words fall into the right bucket, almost all could possibly gain different meaning if we were to look at bigrams. Just one example: "*tetszik*" means that I like it, while "*nem tetszik*" would mean that I don't like it.
+- "*Felfüggesztés*" is negative in the sense that it means "suspension", however, since Fifth Gear is a car show, here we're talking about the spare part.
 
 Could sentiment analysis help to predict the outcome of the tests?
 
@@ -145,11 +145,18 @@ Could sentiment analysis help to predict the outcome of the tests?
 
 Well, somewhat. It's not a huge problem for the intern, because you wouldn't want to spoil the ending, but from an analysis point of view, it's not very deterministic.
 
-- **First episode:** "Tetszik" (I like it) and "luxus" (*luxury*) are on the top of the list, but so is "rossz" (*bad*) and "zavaró" (*disturbing*). Overall the positives seem to outweigh the negatives, but who can confidently say?
-- **Second episode:** "Tetszik" and "bad" are the most dominant, same as above, but we can also observe words such as "baj" (problem). This seemingly trends toward the negative.
-- **Third episode:** Mixed signals again, although "ütközés" (*collusion*) and "sérülés" (*injury*) are outstanding with regards to their contribution to the sentiment. Amongst the positives, we can see "csodálatos" (*wonderful*), "remek" (*great*), "zseniális" (*brilliant*). The episode does have car crash scenes, but it's all part of a safety endurance test which ends on a positive note. So close, yet so far.
-- **Fourth episode:** The last episode in our scope is the only one where we can confidently say that it's positive. The only negative word is "fél", which as I mentioned earlier, can mean both "half" and "to be afraid".
+- **First episode:** "Like" (*tetszik*) and "luxury" (*luxus*) are on the top of the list, but so is "bad" (*rossz*) and "disturbing" (*zavaró*). Overall the positives seem to outweigh the negatives, but who can confidently say?
+- **Second episode:** "Like" and "bad" are the most dominant, same as above, but we can also observe words such as "problem" (*baj*). This seemingly trends toward the negative.
+- **Third episode:** Mixed signals again, although "collusion" (*ütközés*) and "injury" (*sérülés*) are outstanding with regards to their contribution to the sentiment. Amongst the positives, we can see "wonderful" (*csodálatos*), "great" (*remek*) and "brilliant" (*zseniális*). The episode does have car crash scenes, but it's all part of a safety endurance test which ends on a positive note. So close, yet so far.
+- **Fourth episode:** The last episode in our scope is the only one where we can confidently say that it's positive. The only negative word is "*fél*", which as I mentioned earlier, can mean both "half" and "to be afraid".
 
 ## Summary
 
+Overall we can say that while a tech-savvy intern can make his life easier when it comes to writing summaries by simple term frequency analysis, Hungarian text analysis is far from perfect. The language itself is not really cut out for this purpose, as there are way too many suffixes, and those can even change the appearance of the root. Because of this, sentiment analysis is also quite hard to perform, but the lexicon I used for this assignment is a really good starting point. There's obviously room to grow in all aspects, but this was a lot of fun. :smile:
+
 ## Recommendations
+
+- Contributions to the Hungarian Sentiment Lexicon could refine our results.
+- I tried to come up with a systematic solution for looking for suffixes, but I failed miserably, as they can take endless shapes or forms. Some could be removed, but unfortunately not all of them, as even roots tend to change when adding a suffix. Also, you can just keep on adding suffixes, which isn't ideal.
+- Assigning scores to the sentiments would help determine the outcome of a test for example with relatively good confidence levels.
+- Adding even more scripts (not just the ones I wrote), and training a model on the sentiments could also be of help.
